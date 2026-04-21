@@ -58,8 +58,12 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
     // Initial centering of the scrollable area
     const wrapper = svgRef.current?.parentElement
     if (wrapper) {
-      wrapper.scrollLeft = 2500 - wrapper.clientWidth / 2
-      wrapper.scrollTop = 2500 - wrapper.clientHeight / 2
+      const scrollX = 2500 - wrapper.clientWidth / 2
+      const scrollY = 2500 - wrapper.clientHeight / 2
+      requestAnimationFrame(() => {
+        wrapper.scrollLeft = scrollX
+        wrapper.scrollTop = scrollY
+      })
     }
   }, [])
 

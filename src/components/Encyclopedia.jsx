@@ -100,6 +100,106 @@ const MOLECULE_DATA = {
       'Kozmetiklerden mobilyalara kadar pek çok alanda bulunur.'
     ],
     usage: 'Mobilya tutkalı, dezenfektan ve tekstil işlemleri.'
+  },
+  'C₂H₂': {
+    name: 'Asetilen',
+    description: 'En basit alkin grubuna dahil hidrokarbondur. Oldukça yanıcıdır.',
+    facts: [
+      'Karbonlar arasında üçlü bağ vardır.',
+      'Oksi-asetilen kaynak işleminde kullanılır.',
+      '3000 derecenin üzerinde alev sıcaklığı üretebilir.'
+    ],
+    usage: 'Kaynakçılık, metal kesme ve kimyasal sentez.'
+  },
+  'C₂H₄': {
+    name: 'Etilen',
+    description: 'Meyvelerin olgunlaşmasını sağlayan doğal bir bitki hormonudur.',
+    facts: [
+      'Plastik üretiminin (polietilen) temel hammaddesidir.',
+      'Dünyada en çok üretilen organik kimyasaldır.',
+      'Karbonlar arasında çift bağ bulunur.'
+    ],
+    usage: 'Meyve olgunlaştırma, plastik üretimi.'
+  },
+  'CHCl₃': {
+    name: 'Kloroform',
+    description: 'Özel kokulu, renksiz ve ağır bir sıvıdır.',
+    facts: [
+      'Geçmişte cerrahi anestezik olarak kullanılmıştır.',
+      'Güneş ışığında zehirli fosgen gazına dönüşebilir.',
+      'Suyla karışmaz, yağı çok iyi çözer.'
+    ],
+    usage: 'Endüstriyel çözücü, soğutucu üretimi.'
+  },
+  'C₂H₆O': {
+    name: 'Etanol',
+    description: 'Alkollü içeceklerin ana bileşenidir. Etil alkol olarak da bilinir.',
+    facts: [
+      'Şekerin fermente edilmesiyle üretilir.',
+      'İyi bir antiseptiktir.',
+      'Yenilenebilir bir yakıttır (biyoetanol).'
+    ],
+    usage: 'Dezenfektan, içecek sanayi ve yakıt.'
+  },
+  'SF₆': {
+    name: 'Kükürt Hekzaflorür',
+    description: 'Renksiz, kokusuz ve çok ağır bir gazdır.',
+    facts: [
+      'Havadan yaklaşık 5 kat daha yoğundur.',
+      'Sesi kalınlaştırma özelliği vardır (Helyumun tersi).',
+      'En güçlü sera gazlarından biridir.'
+    ],
+    usage: 'Elektrik yalıtımı, göz cerrahisi.'
+  },
+  'PCl₅': {
+    name: 'Fosfor Pentaklorür',
+    description: 'Beyaz-sarımsı renkte, keskin kokulu bir katıdır.',
+    facts: [
+      'Genişletilmiş oktet kuralına bir örnektir.',
+      'Suyla şiddetli reaksiyona girer.',
+      'Klorlama işlemlerinde yaygın kullanılır.'
+    ],
+    usage: 'Kimyasal sentez, pil bileşenleri.'
+  },
+  'H₂O₂': {
+    name: 'Hidrojen Peroksit',
+    description: 'Halk arasında oksijenli su olarak bilinen, güçlü bir oksitleyicidir.',
+    facts: [
+      'Yaraların temizlenmesinde kullanılır.',
+      'Işığa duyarlıdır, bu yüzden koyu renkli şişelerde saklanır.',
+      'Roket yakıtı olarak da tercih edilmiştir.'
+    ],
+    usage: 'Dezenfeksiyon, saç rengi açma, kağıt beyazlatma.'
+  },
+  'O₃': {
+    name: 'Ozon',
+    description: 'Oksijenin üç atomlu bir formudur. Dünyayı UV ışınlarından korur.',
+    facts: [
+      'Gökyüzünün mavi renginin nedenlerinden biridir.',
+      'Fırtına sonrası kokusu duyulabilir.',
+      'Güçlü bir mikrop öldürücüdür.'
+    ],
+    usage: 'Su arıtma, hava temizliği, güneş koruması.'
+  },
+  'CH₂O₂': {
+    name: 'Formik Asit',
+    description: 'En basit karboksilik asittir. Isırgan otu ve karıncalarda doğal olarak bulunur.',
+    facts: [
+      'Karınca asidi olarak da bilinir.',
+      'Antibakteriyel özelliği vardır.',
+      'Arı sokmasındaki acının nedenidir.'
+    ],
+    usage: 'Deri işleme, hayvancılıkta yem koruyucu.'
+  },
+  'C₃H₆O': {
+    name: 'Aseton',
+    description: 'Keskin kokulu, oldukça uçucu ve yanıcı bir sıvıdır.',
+    facts: [
+      'Mükemmel bir çözücüdür.',
+      'Vücutta normal metabolizma sonucu da üretilir.',
+      'Oje çıkarıcıların ana maddesidir.'
+    ],
+    usage: 'Oje çıkarıcı, boya çözücü, plastik sanayi.'
   }
 };
 

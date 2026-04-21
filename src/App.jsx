@@ -19,6 +19,16 @@ const LEVELS = [
   { id: 'ph3', target: 'PH₃', hint: '1 Fosfor + 3 Hidrojen', atoms: ['P', 'H', 'H', 'H'] },
   { id: 'hcl', target: 'HCl', hint: '1 Hidrojen + 1 Klor', atoms: ['H', 'Cl'] },
   { id: 'ch2o', target: 'CH₂O', hint: '1 Karbon + 2 Hidrojen + 1 Oksijen (C=O Çift Bağ!)', atoms: ['C', 'H', 'H', 'O'] },
+  { id: 'c2h2', target: 'C₂H₂', hint: 'Asetilen: 2 Karbon + 2 Hidrojen (Üçlü Bağ!)', atoms: ['C', 'C', 'H', 'H'] },
+  { id: 'c2h4', target: 'C₂H₄', hint: 'Etilen: 2 Karbon + 4 Hidrojen (Çift Bağ!)', atoms: ['C', 'C', 'H', 'H', 'H', 'H'] },
+  { id: 'chcl3', target: 'CHCl₃', hint: 'Kloroform: 1 Karbon + 1 Hidrojen + 3 Klor', atoms: ['C', 'H', 'Cl', 'Cl', 'Cl'] },
+  { id: 'c2h6o', target: 'C₂H₆O', hint: 'Etanol: 2 Karbon + 6 Hidrojen + 1 Oksijen', atoms: ['C', 'C', 'O', 'H', 'H', 'H', 'H', 'H', 'H'] },
+  { id: 'sf6', target: 'SF₆', hint: 'Kükürt Hekzaflorür: 1 Kükürt + 6 Flor', atoms: ['S', 'F', 'F', 'F', 'F', 'F', 'F'] },
+  { id: 'pcl5', target: 'PCl₅', hint: 'Fosfor Pentaklorür: 1 Fosfor + 5 Klor', atoms: ['P', 'Cl', 'Cl', 'Cl', 'Cl', 'Cl'] },
+  { id: 'h2o2', target: 'H₂O₂', hint: 'Hidrojen Peroksit: 2 Hidrojen + 2 Oksijen', atoms: ['H', 'H', 'O', 'O'] },
+  { id: 'o3', target: 'O₃', hint: 'Ozon: 3 Oksijen', atoms: ['O', 'O', 'O'] },
+  { id: 'ch2o2', target: 'CH₂O₂', hint: 'Formik Asit: 1 Karbon + 2 Hidrojen + 2 Oksijen', atoms: ['C', 'H', 'H', 'O', 'O'] },
+  { id: 'c3h6o', target: 'C₃H₆O', hint: 'Aseton: 3 Karbon + 6 Hidrojen + 1 Oksijen', atoms: ['C', 'C', 'C', 'O', 'H', 'H', 'H', 'H', 'H', 'H'] },
 ]
 
 function getTotalValency(atomId, bonds) {
@@ -121,6 +131,43 @@ function validateMolecule(atoms, bonds) {
     const oAtom = atoms.find(a => a.type === 'O')
     if (hAtoms.every(h => getStrength(cAtom.id, h.id) === 1) && getStrength(cAtom.id, oAtom.id) === 2) return 'CH₂O'
   }
+
+  // --- Acetylene: C2H2 ---
+  if (cCount === 2 && hCount === 2 && total === 4) {
+    const cAtoms = atoms.filter(a => a.type === 'C')
+    if (getStrength(cAtoms[0].id, cAtoms[1].id) === 3) return 'C₂H₂'
+  }
+
+  // --- Ethylene: C2H4 ---
+  if (cCount === 2 && hCount === 4 && total === 6) {
+    const cAtoms = atoms.filter(a => a.type === 'C')
+    if (getStrength(cAtoms[0].id, cAtoms[1].id) === 2) return 'C₂H₄'
+  }
+
+  // --- Chloroform: CHCl3 ---
+  if (cCount === 1 && hCount === 1 && clCount === 3 && total === 5) return 'CHCl₃'
+
+  // --- Ethanol: C2H6O ---
+  if (cCount === 2 && hCount === 6 && oCount === 1 && total === 9) return 'C₂H₆O'
+
+  // --- Sulfur Hexafluoride: SF6 ---
+  const fCountLocal = atoms.filter(a => a.type === 'F').length
+  if (sCount === 1 && fCountLocal === 6 && total === 7) return 'SF₆'
+
+  // --- Phosphorus Pentachloride: PCl5 ---
+  if (pCount === 1 && clCount === 5 && total === 6) return 'PCl₅'
+
+  // --- Hydrogen Peroxide: H2O2 ---
+  if (hCount === 2 && oCount === 2 && total === 4) return 'H₂O₂'
+
+  // --- Ozone: O3 ---
+  if (oCount === 3 && total === 3 && bondCount >= 2) return 'O₃'
+
+  // --- Formic Acid: CH2O2 ---
+  if (cCount === 1 && hCount === 2 && oCount === 2 && total === 5) return 'CH₂O₂'
+
+  // --- Acetone: C3H6O ---
+  if (cCount === 3 && hCount === 6 && oCount === 1 && total === 10) return 'C₃H₆O'
 
   return null
 }
