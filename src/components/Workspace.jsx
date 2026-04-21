@@ -54,6 +54,15 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
     }
   }, [draggingAtom, handleMouseMove, handleMouseUp])
 
+  useEffect(() => {
+    // Initial centering of the scrollable area
+    const wrapper = svgRef.current?.parentElement
+    if (wrapper) {
+      wrapper.scrollLeft = 2500 - wrapper.clientWidth / 2
+      wrapper.scrollTop = 2500 - wrapper.clientHeight / 2
+    }
+  }, [])
+
   const bondedAtomIds = bondingFrom
     ? bonds.filter(b => b.source === bondingFrom || b.target === bondingFrom)
         .map(b => b.source === bondingFrom ? b.target : b.source)
@@ -122,6 +131,8 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
         ref={svgRef}
         className="workspace-svg"
         onClick={handleSvgClick}
+        width="5000"
+        height="5000"
       >
         <defs>
           <filter id="glow-h">
@@ -161,7 +172,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
           </pattern>
         </defs>
 
-        <rect className="workspace-bg" width="100%" height="100%" fill="url(#grid)" className="workspace-grid workspace-bg" />
+        <rect className="workspace-bg" width="5000" height="5000" fill="url(#grid)" className="workspace-grid workspace-bg" />
 
         {bonds.map(renderBond)}
 
