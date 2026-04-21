@@ -52,27 +52,31 @@ function Atom({ position, type }) {
 }
 
 function Bond({ start, end, strength }) {
-  
-  const width = 0.1
   const vec = new THREE.Vector3().subVectors(end, start)
   const len = vec.length()
   const pos = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5)
-  const orientation = new THREE.Matrix4()
-  const up = new THREE.Vector3(0, 1, 0)
-  const target = vec.clone().normalize()
-  orientation.lookAt(target, new THREE.Vector3(0, 0, 0), up)
+  const width = 0.08
+  
+  // Create rotation matrix to align cylinder with bond vector
+  const quaternion = new THREE.Quaternion()
+  const cylinderUp = new THREE.Vector3(0, 1, 0)
+  const direction = vec.clone().normalize()
+  quaternion.setFromUnitVectors(cylinderUp, direction)
   
   const renderCylinder = (offset = 0) => {
     const adjustedPos = pos.clone()
     if (offset !== 0) {
-      const side = new THREE.Vector3().crossVectors(target, up).normalize().multiplyScalar(offset)
-      adjustedPos.add(side)
+      // Find a perpendicular vector for offsetting multiple bonds
+      const perp = new THREE.Vector3(1, 0, 0).cross(direction)
+      if (perp.length() < 0.1) perp.set(0, 0, 1).cross(direction)
+      perp.normalize().multiplyScalar(offset)
+      adjustedPos.add(perp)
     }
     
     return (
-      <mesh position={adjustedPos} quaternion={new THREE.Quaternion().setFromRotationMatrix(orientation)}>
-        <cylinderGeometry args={[width, width, len, 16]} />
-        <meshStandardMaterial color="#94a3b8" metalness={0.5} roughness={0.5} transparent opacity={0.8} />
+      <mesh position={adjustedPos} quaternion={quaternion}>
+        <cylinderGeometry args={[width, width, len, 8]} />
+        <meshStandardMaterial color="#cbd5e1" metalness={0.6} roughness={0.4} />
       </mesh>
     )
   }
@@ -89,8 +93,8 @@ function Bond({ start, end, strength }) {
       {strength === 3 && (
         <>
           {renderCylinder(0)}
-          {renderCylinder(0.2)}
-          {renderCylinder(-0.2)}
+          {renderCylinder(0.22)}
+          {renderCylinder(-0.22)}
         </>
       )}
     </group>
@@ -98,34 +102,44 @@ function Bond({ start, end, strength }) {
 }
 
 export default function ThreeScene({ atoms, bonds }) {
-  // Map 2D coordinates (pixels) to 3D units
-  // Scale down and center
-  const centerOfMass = useMemo(() => {
-    if (atoms.length === 0) return [0, 0, 0]
-    const sumX = atoms.reduce((s, a) => s + a.x, 0)
-    const sumY = atoms.reduce((s, a) => s + a.y, 0)
-    return [sumX / atoms.length, sumY / atoms.length]
-  }, [atoms])
-
   const scale = 0.02
 
-  const mappedAtoms = atoms.map(a => ({
-    ...a,
-    pos: [(a.x - centerOfMass[0]) * scale, -(a.y - centerOfMass[1]) * scale, 0]
-  }))
+  const { mappedAtoms, maxRadius } = useMemo(() => {
+    if (atoms.length === 0) return { mappedAtoms: [], maxRadius: 5 }
+    
+    const sumX = atoms.reduce((s, a) => s + a.x, 0)
+    const sumY = atoms.reduce((s, a) => s + a.y, 0)
+    const center = [sumX / atoms.length, sumY / atoms.length]
+
+    const mapped = atoms.map(a => ({
+      ...a,
+      pos: [(a.x - center[0]) * scale, -(a.y - center[1]) * scale, 0]
+    }))
+
+    // Calculate bounding sphere radius for camera adjustment
+    let maxDistSq = 0
+    mapped.forEach(a => {
+      const distSq = a.pos[0] * a.pos[0] + a.pos[1] * a.pos[1]
+      if (distSq > maxDistSq) maxDistSq = distSq
+    })
+    
+    return { mappedAtoms: mapped, maxRadius: Math.sqrt(maxDistSq) }
+  }, [atoms])
+
+  const cameraDist = Math.max(5, maxRadius * 2.5 + 2)
 
   return (
-    <div className="three-scene-wrapper glass-panel">
-      <Canvas shadows camera={{ position: [0, 0, 10], fov: 45 }}>
+    <div className="three-scene-wrapper">
+      <Canvas shadows camera={{ position: [0, 0, cameraDist], fov: 45 }}>
         <color attach="background" args={['#0a0a0c']} />
-        <fog attach="fog" args={['#0a0a0c', 5, 20]} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
-        <pointLight position={[-10, -10, -10]} color="#4f46e5" intensity={0.5} />
+        <ambientLight intensity={0.7} />
+        <pointLight position={[10, 10, 10]} intensity={2.5} castShadow />
+        <pointLight position={[-10, -10, -10]} color="#6366f1" intensity={1} />
+        <spotLight position={[0, 20, 0]} intensity={1.5} angle={Math.PI/6} penumbra={1} />
         
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         
-        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+        <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.3}>
           <group>
             {mappedAtoms.map(atom => (
               <Atom 
@@ -150,9 +164,15 @@ export default function ThreeScene({ atoms, bonds }) {
           </group>
         </Float>
 
-        <OrbitControls enablePan={false} minDistance={5} maxDistance={15} />
+        <OrbitControls 
+          enablePan={true} 
+          minDistance={maxRadius + 2} 
+          maxDistance={cameraDist * 2} 
+          autoRotate={true}
+          autoRotateSpeed={0.5}
+        />
       </Canvas>
-      <div className="three-hint">Döndürmek ve yakınlaştırmak için etkileşime geçin 🌐</div>
+      <div className="three-hint">Gezinmek için basılı tutun | 3D Modu Aktif</div>
     </div>
   )
 }
