@@ -10,6 +10,8 @@ const ATOM_COLORS = {
   C: '#1e1e1e',
   S: '#facc15',
   P: '#f97316',
+  Cl: '#4ade80',
+  F: '#fbbf24',
 }
 
 const ATOM_SIZES = {
@@ -19,6 +21,8 @@ const ATOM_SIZES = {
   C: 0.75,
   S: 0.8,
   P: 0.75,
+  Cl: 0.7,
+  F: 0.5,
 }
 
 function Atom({ position, type }) {

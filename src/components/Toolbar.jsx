@@ -7,6 +7,8 @@ const ATOMS = [
   { type: 'C', name: 'Karbon', colorClass: 'atom-preview-c' },
   { type: 'S', name: 'Kükürt', colorClass: 'atom-preview-s' },
   { type: 'P', name: 'Fosfor', colorClass: 'atom-preview-p' },
+  { type: 'Cl', name: 'Klor', colorClass: 'atom-preview-cl' },
+  { type: 'F', name: 'Flor', colorClass: 'atom-preview-f' },
 ];
 
 const MODES = [

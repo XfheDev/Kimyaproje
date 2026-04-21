@@ -6,13 +6,19 @@ import Feedback from './components/Feedback'
 import ThreeScene from './components/ThreeScene'
 import Encyclopedia from './components/Encyclopedia'
 
-const VALENCY = { H: 1, O: 2, C: 4, N: 3, S: 6, P: 5 }
+const VALENCY = { H: 1, O: 2, C: 4, N: 3, S: 6, P: 5, Cl: 1, F: 1 }
 
 const LEVELS = [
   { id: 'water', target: 'H₂O', hint: '1 Oksijen + 2 Hidrojen', atoms: ['O', 'H', 'H'] },
   { id: 'ammonia', target: 'NH₃', hint: '1 Azot + 3 Hidrojen', atoms: ['N', 'H', 'H', 'H'] },
   { id: 'co2', target: 'CO₂', hint: '1 Karbon + 2 Oksijen (Çift Bağ!)', atoms: ['C', 'O', 'O'] },
   { id: 'methane', target: 'CH₄', hint: '1 Karbon + 4 Hidrojen', atoms: ['C', 'H', 'H', 'H', 'H'] },
+  { id: 'oxygen', target: 'O₂', hint: '2 Oksijen (Çift Bağ!)', atoms: ['O', 'O'] },
+  { id: 'nitrogen', target: 'N₂', hint: '2 Azot (Üçlü Bağ!)', atoms: ['N', 'N'] },
+  { id: 'so2', target: 'SO₂', hint: '1 Kükürt + 2 Oksijen (Çift Bağlar!)', atoms: ['S', 'O', 'O'] },
+  { id: 'ph3', target: 'PH₃', hint: '1 Fosfor + 3 Hidrojen', atoms: ['P', 'H', 'H', 'H'] },
+  { id: 'hcl', target: 'HCl', hint: '1 Hidrojen + 1 Klor', atoms: ['H', 'Cl'] },
+  { id: 'ch2o', target: 'CH₂O', hint: '1 Karbon + 2 Hidrojen + 1 Oksijen (C=O Çift Bağ!)', atoms: ['C', 'H', 'H', 'O'] },
 ]
 
 function getTotalValency(atomId, bonds) {
@@ -79,11 +85,41 @@ function validateMolecule(atoms, bonds) {
     if (oAtoms.every(o => getStrength(sAtom.id, o.id) === 2)) return 'SO₂'
   }
 
-  // --- Phosphine: PH3 (1P + 3H) ---
+  // --- Phosphine: PH3 ---
   if (pCount === 1 && hCount === 3 && total === 4) {
     const pAtom = atoms.find(a => a.type === 'P')
     const hAtoms = atoms.filter(a => a.type === 'H')
     if (hAtoms.every(h => getStrength(pAtom.id, h.id) === 1)) return 'PH₃'
+  }
+
+  // --- Oxygen Gas: O2 ---
+  if (oCount === 2 && total === 2) {
+    if (getStrength(atoms[0].id, atoms[1].id) === 2) return 'O₂'
+  }
+
+  // --- Nitrogen Gas: N2 ---
+  if (nCount === 2 && total === 2) {
+    if (getStrength(atoms[0].id, atoms[1].id) === 3) return 'N₂'
+  }
+
+  // --- Hydrogen Chloride: HCl ---
+  const clCount = atoms.filter(a => a.type === 'Cl').length
+  if (hCount === 1 && clCount === 1 && total === 2) {
+    if (getStrength(atoms.find(a => a.type === 'H').id, atoms.find(a => a.type === 'Cl').id) === 1) return 'HCl'
+  }
+
+  // --- Hydrogen Fluoride: HF ---
+  const fCount = atoms.filter(a => a.type === 'F').length
+  if (hCount === 1 && fCount === 1 && total === 2) {
+    if (getStrength(atoms.find(a => a.type === 'H').id, atoms.find(a => a.type === 'F').id) === 1) return 'HF'
+  }
+
+  // --- Formaldehyde: CH2O ---
+  if (cCount === 1 && hCount === 2 && oCount === 1 && total === 4) {
+    const cAtom = atoms.find(a => a.type === 'C')
+    const hAtoms = atoms.filter(a => a.type === 'H')
+    const oAtom = atoms.find(a => a.type === 'O')
+    if (hAtoms.every(h => getStrength(cAtom.id, h.id) === 1) && getStrength(cAtom.id, oAtom.id) === 2) return 'CH₂O'
   }
 
   return null

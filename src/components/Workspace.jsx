@@ -7,6 +7,8 @@ const ATOM_CONFIG = {
   C: { fill: '#1e1e1e', stroke: '#525252', glowColor: 'rgba(255,255,255,0.15)', labelFill: '#e2e8f0', r: 28 },
   S: { fill: '#facc15', stroke: '#ca8a04', glowColor: 'rgba(250, 204, 21, 0.4)', labelFill: '#422006', r: 29 },
   P: { fill: '#f97316', stroke: '#ea580c', glowColor: 'rgba(249, 115, 22, 0.4)', labelFill: '#ffffff', r: 27 },
+  Cl: { fill: '#4ade80', stroke: '#16a34a', glowColor: 'rgba(74, 222, 128, 0.4)', labelFill: '#064e3b', r: 26 },
+  F: { fill: '#fbbf24', stroke: '#d97706', glowColor: 'rgba(251, 191, 36, 0.4)', labelFill: '#451a03', r: 24 },
 }
 
 export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspaceClick, onAtomClick, onAtomMove }) {
@@ -144,6 +146,14 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
           </filter>
           <filter id="glow-p">
             <feGaussianBlur stdDeviation="4" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+          <filter id="glow-cl">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+          <filter id="glow-f">
+            <feGaussianBlur stdDeviation="3.5" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">

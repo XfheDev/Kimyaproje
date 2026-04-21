@@ -307,6 +307,18 @@
   color: #fff;
 }
 
+.atom-preview-cl {
+  background: #4ade80;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+  color: #064e3b;
+}
+
+.atom-preview-f {
+  background: #fbbf24;
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+  color: #451a03;
+}
+
 .divider {
   border: none;
   border-top: 1px solid var(--glass-border);
@@ -453,6 +465,8 @@
 .c-dot { background: #444; border: 1px solid #666; }
 .s-dot { background: #facc15; box-shadow: 0 0 4px rgba(250, 204, 21, 0.4); }
 .p-dot { background: #f97316; box-shadow: 0 0 4px rgba(249, 115, 22, 0.4); }
+.cl-dot { background: #4ade80; box-shadow: 0 0 4px rgba(74, 222, 128, 0.4); }
+.f-dot { background: #fbbf24; box-shadow: 0 0 4px rgba(251, 191, 36, 0.4); }
 
 /* === DISCOVERY GALLERY === */
 .gallery {
