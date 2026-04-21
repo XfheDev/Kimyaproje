@@ -40,6 +40,66 @@ const MOLECULE_DATA = {
       'Kokusuzdur; biz kokusunu içine eklenen maddelerden alırız.'
     ],
     usage: 'Isınma, elektrik üretimi ve yakıt.'
+  },
+  'O₂': {
+    name: 'Oksijen',
+    description: 'Dünya atmosferindeki en yaygın ikinci gazdır ve solunum için gereklidir.',
+    facts: [
+      'Atmosferin %21\'ini oluşturur.',
+      'Oldukça reaktiftir ve yanmayı destekler.',
+      'Sıvı hali soluk mavi renktedir.'
+    ],
+    usage: 'Tıp, metal kesme, roket yakıtı ve solunum cihazları.'
+  },
+  'N₂': {
+    name: 'Azot (Nitrojen)',
+    description: 'Dünya atmosferinin ana bileşenidir. Renksiz ve kokusuzdur.',
+    facts: [
+      'Atmosferin %78\'ini oluşturur.',
+      'Üçlü bağ içerdiği için oldukça stabildir.',
+      'Sıvı azot -196 derecede kaynar.'
+    ],
+    usage: 'Gübre üretimi, gıda paketleme, dondurma işlemleri.'
+  },
+  'SO₂': {
+    name: 'Kükürt Dioksit',
+    description: 'Keskin kokulu, renksiz bir gazdır. Volkanik faaliyetlerde oluşur.',
+    facts: [
+      'Asit yağmurlarının ana nedenlerinden biridir.',
+      'Mikrop öldürücü özelliği vardır.',
+      'Sanayi devriminden beri hava kirliliği göstergesidir.'
+    ],
+    usage: 'Kağıt beyazlatma, şarapları koruma ve sülfürik asit üretimi.'
+  },
+  'PH₃': {
+    name: 'Fosfin',
+    description: 'Zehirli, yanıcı ve oldukça tehlikeli bir gazdır. Şiddetli balık kokusuna benzer.',
+    facts: [
+      'Yarı iletken endüstrisinde kullanılır.',
+      'Venüs atmosferinde bulunması yaşam izi olabileceği tartışmalarına yol açtı.',
+      'Doğada sadece oksijensiz ortamlarda üretilir.'
+    ],
+    usage: 'Haşere mücadelesi (pestisit) ve elektronik endüstrisi.'
+  },
+  'HCl': {
+    name: 'Hidrojen Klorür',
+    description: 'Keskin kokulu bir gazdır. Suda çözündüğünde tuz ruhu (hidroklorik asit) oluşur.',
+    facts: [
+      'Mide asidinin ana bileşenlerinden biridir.',
+      'Havacılık ve uzay sanayiinde de kullanılır.',
+      'Oldukça aşındırıcı ve yakıcıdır.'
+    ],
+    usage: 'Metal temizleme, PVC üretimi ve gıda işleme.'
+  },
+  'CH₂O': {
+    name: 'Formaldehit',
+    description: 'En basit aldehittir. Keskin kokulu, renksiz ve gaz halindedir.',
+    facts: [
+      'Biyolojik örnekleri korumak için yaygın kullanılır.',
+      'Kanserojen özellik taşıyabilir.',
+      'Kozmetiklerden mobilyalara kadar pek çok alanda bulunur.'
+    ],
+    usage: 'Mobilya tutkalı, dezenfektan ve tekstil işlemleri.'
   }
 };
 

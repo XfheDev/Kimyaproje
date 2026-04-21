@@ -135,6 +135,7 @@ export default function App() {
   const [currentLevel, setCurrentLevel] = useState(0)
   const [show3D, setShow3D] = useState(false)
   const [showEncyclopedia, setShowEncyclopedia] = useState(null)
+  const [isFinished, setIsFinished] = useState(false)
   const [mode, setMode] = useState('place') // 'place' | 'bond' | 'delete' | 'drag'
   const feedbackTimer = useRef(null)
 
@@ -248,6 +249,8 @@ export default function App() {
               setAtoms([])
               setBonds([])
             }, 3000)
+          } else {
+            setTimeout(() => setIsFinished(true), 3000)
           }
         }
       } else {
@@ -372,6 +375,25 @@ export default function App() {
           moleculeId={showEncyclopedia} 
           onClose={() => setShowEncyclopedia(null)} 
         />
+      )}
+
+      {isFinished && (
+        <div className="finish-overlay">
+          <div className="finish-card glass-panel">
+            <span className="finish-emoji">🏆</span>
+            <h2>Tebrikler!</h2>
+            <p>Tüm molekülleri başarıyla oluşturdun ve kimya dünyasını keşfettin.</p>
+            <div className="stats">
+              <div className="stat-item">
+                <span className="stat-value">{discoveries.length}</span>
+                <span className="stat-label">Keşif</span>
+              </div>
+            </div>
+            <button className="reset-game-btn" onClick={() => window.location.reload()}>
+              Yeniden Başla
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )
