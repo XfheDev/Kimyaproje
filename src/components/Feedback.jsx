@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { animate } from 'animejs';
 
 export default function Feedback({ msg, type }) {
   const isError = type === 'error';
   const toastRef = useRef(null);
   
   useEffect(() => {
-    anime({
+    animate({
       targets: toastRef.current,
       translateY: [50, 0],
       opacity: [0, 1],

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { animate } from 'animejs';
 
 const MOLECULE_DATA = {
   'H₂O': {
@@ -211,13 +211,13 @@ export default function Encyclopedia({ moleculeId, onClose }) {
 
   useEffect(() => {
     if (data) {
-      anime({
+      animate({
         targets: overlayRef.current,
         opacity: [0, 1],
         easing: 'linear',
         duration: 300
       });
-      anime({
+      animate({
         targets: cardRef.current,
         scale: [0.9, 1],
         opacity: [0, 1],

@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
-import anime from 'animejs'
+import { animate } from 'animejs'
 
 const ATOM_CONFIG = {
   H: { fill: '#e2e8f0', stroke: '#94a3b8', labelFill: '#1e293b', r: 22 },
@@ -20,7 +20,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
   useEffect(() => {
     if (atoms.length > 0) {
       const lastAtom = atoms[atoms.length - 1];
-      anime({
+      animate({
         targets: `#atom-${lastAtom.id}`,
         scale: [0, 1],
         opacity: [0, 1],
@@ -81,10 +81,6 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
     }
   }, [])
 
-  const bondedAtomIds = bondingFrom
-    ? bonds.filter(b => b.source === bondingFrom || b.target === bondingFrom)
-        .map(b => b.source === bondingFrom ? b.target : b.source)
-    : []
 
   const renderBond = (bond) => {
     const src = atoms.find(a => a.id === bond.source)
@@ -163,7 +159,6 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
         {atoms.map(atom => {
           const cfg = ATOM_CONFIG[atom.type]
           const isSelected = bondingFrom === atom.id
-          const isBonded = bondedAtomIds.includes(atom.id)
           const isDragging = draggingAtom === atom.id
 
           return (

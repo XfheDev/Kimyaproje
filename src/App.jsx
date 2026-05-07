@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import anime from 'animejs'
+import { animate, stagger } from 'animejs'
 import './App.css'
 import Toolbar from './components/Toolbar'
 import Workspace from './components/Workspace'
@@ -189,11 +189,11 @@ export default function App() {
 
   // Page Entry Animation
   useEffect(() => {
-    anime({
+    animate({
       targets: '.app-header, .toolbar, .legend',
       translateY: [20, 0],
       opacity: [0, 1],
-      delay: anime.stagger(100),
+      delay: stagger(100),
       easing: 'easeOutExpo',
       duration: 1000
     })
@@ -201,7 +201,7 @@ export default function App() {
 
   // Level Change Animation
   useEffect(() => {
-    anime({
+    animate({
       targets: '.level-hud',
       scale: [0.95, 1],
       opacity: [0.5, 1],
