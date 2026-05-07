@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Stars, Text, Float } from '@react-three/drei'
+import { OrbitControls, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
 const ATOM_COLORS = {
   H: '#f8fafc',
-  O: '#f43f5e',
+  O: '#ef4444',
   N: '#3b82f6',
-  C: '#1e293b',
-  S: '#f59e0b',
-  P: '#ec4899',
-  Cl: '#22c55e',
+  C: '#1e1e1e',
+  S: '#facc15',
+  P: '#f97316',
+  Cl: '#4ade80',
   F: '#fbbf24',
 }
 
 const ATOM_SIZES = {
-  H: 0.45,
+  H: 0.4,
   O: 0.65,
   N: 0.7,
   C: 0.75,
@@ -33,14 +33,14 @@ function Atom({ position, type }) {
         <meshStandardMaterial 
           color={ATOM_COLORS[type]} 
           roughness={0.4} 
-          metalness={0.2}
+          metalness={0}
           emissive={ATOM_COLORS[type]}
-          emissiveIntensity={0.1}
+          emissiveIntensity={0.05}
         />
       </mesh>
       <Text
-        position={[0, ATOM_SIZES[type] + 0.35, 0]}
-        fontSize={0.25}
+        position={[0, ATOM_SIZES[type] + 0.3, 0]}
+        fontSize={0.2}
         color="white"
         anchorX="center"
         anchorY="middle"
@@ -57,6 +57,7 @@ function Bond({ start, end, strength }) {
   const pos = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5)
   const width = 0.08
   
+  // Create rotation matrix to align cylinder with bond vector
   const quaternion = new THREE.Quaternion()
   const cylinderUp = new THREE.Vector3(0, 1, 0)
   const direction = vec.clone().normalize()
@@ -65,6 +66,7 @@ function Bond({ start, end, strength }) {
   const renderCylinder = (offset = 0) => {
     const adjustedPos = pos.clone()
     if (offset !== 0) {
+      // Find a perpendicular vector for offsetting multiple bonds
       const perp = new THREE.Vector3(1, 0, 0).cross(direction)
       if (perp.length() < 0.1) perp.set(0, 0, 1).cross(direction)
       perp.normalize().multiplyScalar(offset)
@@ -74,7 +76,7 @@ function Bond({ start, end, strength }) {
     return (
       <mesh position={adjustedPos} quaternion={quaternion}>
         <cylinderGeometry args={[width, width, len, 8]} />
-        <meshStandardMaterial color="#475569" metalness={0.4} roughness={0.6} />
+        <meshStandardMaterial color="#475569" metalness={0.2} roughness={0.8} />
       </mesh>
     )
   }
@@ -114,6 +116,7 @@ export default function ThreeScene({ atoms, bonds }) {
       pos: [(a.x - center[0]) * scale, -(a.y - center[1]) * scale, 0]
     }))
 
+    // Calculate bounding sphere radius for camera adjustment
     let maxDistSq = 0
     mapped.forEach(a => {
       const distSq = a.pos[0] * a.pos[0] + a.pos[1] * a.pos[1]
@@ -123,20 +126,17 @@ export default function ThreeScene({ atoms, bonds }) {
     return { mappedAtoms: mapped, maxRadius: Math.sqrt(maxDistSq) }
   }, [atoms])
 
-  const cameraDist = Math.max(6, maxRadius * 3 + 2)
+  const cameraDist = Math.max(5, maxRadius * 2.5 + 2)
 
   return (
     <div className="three-scene-wrapper">
       <Canvas shadows camera={{ position: [0, 0, cameraDist], fov: 45 }}>
-        <color attach="background" args={['#020617']} />
+        <color attach="background" args={['#0c0c0e']} />
         <ambientLight intensity={1.2} />
-        <pointLight position={[10, 10, 10]} intensity={2} castShadow />
-        <pointLight position={[-10, -10, -10]} color="#818cf8" intensity={1} />
+        <pointLight position={[10, 10, 10]} intensity={2} />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} />
         
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-
-        <Float speed={1.8} rotationIntensity={0.4} floatIntensity={0.4}>
-          <group>
+        <group>
             {mappedAtoms.map(atom => (
               <Atom 
                 key={atom.id} 
@@ -158,19 +158,14 @@ export default function ThreeScene({ atoms, bonds }) {
               )
             })}
           </group>
-        </Float>
 
         <OrbitControls 
           enablePan={true} 
-          minDistance={maxRadius + 1} 
-          maxDistance={cameraDist * 3} 
-          autoRotate={true}
-          autoRotateSpeed={0.5}
+          minDistance={maxRadius + 2} 
+          maxDistance={cameraDist * 2} 
         />
       </Canvas>
       <div className="three-hint">Gezinmek için basılı tutun | 3D Modu Aktif</div>
     </div>
   )
 }
-
-

@@ -1,43 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;400;600;700&display=swap');
 
 :root {
-  --bg-color: #020617;
-  --panel-bg: #0f172a;
-  --panel-border: #1e293b;
-  --accent-primary: #818cf8;
-  --accent-secondary: #22d3ee;
-  --accent-success: #10b981;
-  --accent-error: #f43f5e;
+  --bg-color: #0c0c0e;
+  --panel-bg: #16161a;
+  --border-color: #2a2a30;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #8b5cf6;
   
-  /* Atom Colors (Curated Flat) */
-  --atom-c: #1e293b;
-  --atom-o: #f43f5e;
-  --atom-h: #f8fafc;
-  --atom-n: #3b82f6;
-  --atom-s: #f59e0b;
-  --atom-p: #ec4899;
-  --atom-cl: #22c55e;
-  --atom-f: #fbbf24;
+  /* Atom Colors */
+  --atom-c: #121212;
+  --atom-c-glow: rgba(0, 0, 0, 0.5);
+  --atom-o: #ef4444;
+  --atom-o-glow: rgba(239, 68, 68, 0.4);
+  --atom-h: #f3f4f6;
+  --atom-h-glow: rgba(243, 244, 246, 0.3);
   
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
   color-scheme: dark;
+  color: var(--text-primary);
+  background-color: var(--bg-color);
+
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  background-color: var(--bg-color);
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg-color);
   overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Space Grotesk', 'Outfit', system-ui, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -49,77 +52,34 @@ body {
 
 .glass-panel {
   background: var(--panel-bg);
-  border: 2px solid var(--panel-border);
-  border-radius: 12px;
-  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.2);
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 button {
   cursor: pointer;
-  border-radius: 8px;
-  border: 2px solid var(--panel-border);
-  padding: 0.8em 1.4em;
-  font-size: 0.9em;
+  border-radius: 2px;
+  border: 2px solid var(--border-color);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
   font-weight: 600;
-  font-family: inherit;
-  background-color: #1e293b;
-  color: var(--text-primary);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Outfit', sans-serif;
+  background-color: #1a1a1a;
+  color: white;
+  transition: all 0.15s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 button:hover {
-  border-color: var(--accent-primary);
-  background-color: #334155;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-}
-
-button.active {
-  background-color: var(--accent-primary);
-  border-color: var(--accent-primary);
-  color: white;
+  border-color: var(--accent-cyan);
+  background-color: #2a2a2a;
 }
 
 h1 {
-  font-size: 2.4em;
+  font-size: 3.2em;
   line-height: 1.1;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: white;
 }
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 20px;
-  gap: 20px;
-  box-sizing: border-box;
-}
-
-.main-layout {
-  display: grid;
-  grid-template-columns: 80px 1fr 300px;
-  gap: 20px;
-  flex: 1;
-  min-height: 0;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--panel-border);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
-}
-
