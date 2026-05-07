@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import anime from 'animejs'
 import './App.css'
 import Toolbar from './components/Toolbar'
 import Workspace from './components/Workspace'
@@ -185,6 +186,29 @@ export default function App() {
   const [isFinished, setIsFinished] = useState(false)
   const [mode, setMode] = useState('place') // 'place' | 'bond' | 'delete' | 'drag'
   const feedbackTimer = useRef(null)
+
+  // Page Entry Animation
+  useEffect(() => {
+    anime({
+      targets: '.app-header, .toolbar, .legend',
+      translateY: [20, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100),
+      easing: 'easeOutExpo',
+      duration: 1000
+    })
+  }, [])
+
+  // Level Change Animation
+  useEffect(() => {
+    anime({
+      targets: '.level-hud',
+      scale: [0.95, 1],
+      opacity: [0.5, 1],
+      easing: 'easeOutElastic(1, .8)',
+      duration: 800
+    })
+  }, [currentLevel])
 
   const showFeedback = useCallback((msg, type = 'success') => {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current)

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import anime from 'animejs';
 
 const MOLECULE_DATA = {
   'H₂O': {
@@ -173,7 +174,7 @@ const MOLECULE_DATA = {
   },
   'O₃': {
     name: 'Ozon',
-    description: 'Oksijenin üç atomlu bir formudur. Dünyayı UV ışınlarından korur.',
+    description: 'Oksijenın üç atomlu bir formudur. Dünyayı UV ışınlarından korur.',
     facts: [
       'Gökyüzünün mavi renginin nedenlerinden biridir.',
       'Fırtına sonrası kokusu duyulabilir.',
@@ -205,11 +206,32 @@ const MOLECULE_DATA = {
 
 export default function Encyclopedia({ moleculeId, onClose }) {
   const data = MOLECULE_DATA[moleculeId];
+  const cardRef = useRef(null);
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    if (data) {
+      anime({
+        targets: overlayRef.current,
+        opacity: [0, 1],
+        easing: 'linear',
+        duration: 300
+      });
+      anime({
+        targets: cardRef.current,
+        scale: [0.9, 1],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 600
+      });
+    }
+  }, [moleculeId, data]);
+
   if (!data) return null;
 
   return (
-    <div className="encyclopedia-overlay" onClick={onClose}>
-      <div className="encyclopedia-card glass-panel" onClick={e => e.stopPropagation()}>
+    <div ref={overlayRef} className="encyclopedia-overlay" onClick={onClose}>
+      <div ref={cardRef} className="encyclopedia-card" onClick={e => e.stopPropagation()}>
         <button className="close-btn" onClick={onClose}>&times;</button>
         <div className="card-header">
           <span className="formula-tag">{moleculeId}</span>
@@ -221,20 +243,20 @@ export default function Encyclopedia({ moleculeId, onClose }) {
             <h3>Nedir?</h3>
             <p>{data.description}</p>
           </section>
-
+  
           <section className="info-section">
             <h3>İlginç Bilgiler</h3>
             <ul>
               {data.facts.map((f, i) => <li key={i}>{f}</li>)}
             </ul>
           </section>
-
+  
           <section className="usage-section">
             <h3>Kullanım Alanları</h3>
             <p>{data.usage}</p>
           </section>
         </div>
-
+  
         <div className="card-footer">
           <button className="got-it-btn" onClick={onClose}>Anladım!</button>
         </div>
@@ -242,3 +264,4 @@ export default function Encyclopedia({ moleculeId, onClose }) {
     </div>
   );
 }
+

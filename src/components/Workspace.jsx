@@ -1,19 +1,34 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
+import anime from 'animejs'
 
 const ATOM_CONFIG = {
-  H: { fill: '#f1f5f9', stroke: '#cbd5e1', glowColor: 'rgba(241, 245, 249, 0.5)', labelFill: '#1e293b', r: 22 },
-  O: { fill: '#ef4444', stroke: '#dc2626', glowColor: 'rgba(239, 68, 68, 0.6)', labelFill: '#ffffff', r: 26 },
-  N: { fill: '#3b82f6', stroke: '#2563eb', glowColor: 'rgba(59, 130, 246, 0.5)', labelFill: '#ffffff', r: 27 },
-  C: { fill: '#1e1e1e', stroke: '#525252', glowColor: 'rgba(255,255,255,0.15)', labelFill: '#e2e8f0', r: 28 },
-  S: { fill: '#facc15', stroke: '#ca8a04', glowColor: 'rgba(250, 204, 21, 0.4)', labelFill: '#422006', r: 29 },
-  P: { fill: '#f97316', stroke: '#ea580c', glowColor: 'rgba(249, 115, 22, 0.4)', labelFill: '#ffffff', r: 27 },
-  Cl: { fill: '#4ade80', stroke: '#16a34a', glowColor: 'rgba(74, 222, 128, 0.4)', labelFill: '#064e3b', r: 26 },
-  F: { fill: '#fbbf24', stroke: '#d97706', glowColor: 'rgba(251, 191, 36, 0.4)', labelFill: '#451a03', r: 24 },
+  H: { fill: '#e2e8f0', stroke: '#94a3b8', labelFill: '#1e293b', r: 22 },
+  O: { fill: '#f43f5e', stroke: '#e11d48', labelFill: '#ffffff', r: 26 },
+  N: { fill: '#8b5cf6', stroke: '#7c3aed', labelFill: '#ffffff', r: 27 },
+  C: { fill: '#334155', stroke: '#1e293b', labelFill: '#f8fafc', r: 28 },
+  S: { fill: '#f59e0b', stroke: '#d97706', labelFill: '#ffffff', r: 29 },
+  P: { fill: '#ec4899', stroke: '#db2777', labelFill: '#ffffff', r: 27 },
+  Cl: { fill: '#22c55e', stroke: '#16a34a', labelFill: '#ffffff', r: 26 },
+  F: { fill: '#fbbf24', stroke: '#f59e0b', labelFill: '#ffffff', r: 24 },
 }
 
 export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspaceClick, onAtomClick, onAtomMove }) {
   const svgRef = useRef(null)
   const [draggingAtom, setDraggingAtom] = useState(null)
+
+  // Animate new atoms
+  useEffect(() => {
+    if (atoms.length > 0) {
+      const lastAtom = atoms[atoms.length - 1];
+      anime({
+        targets: `#atom-${lastAtom.id}`,
+        scale: [0, 1],
+        opacity: [0, 1],
+        easing: 'easeOutElastic(1, .5)',
+        duration: 800
+      });
+    }
+  }, [atoms.length]);
 
   const handleSvgClick = (e) => {
     if (draggingAtom) return
@@ -55,7 +70,6 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
   }, [draggingAtom, handleMouseMove, handleMouseUp])
 
   useEffect(() => {
-    // Initial centering of the scrollable area
     const wrapper = svgRef.current?.parentElement
     if (wrapper) {
       const scrollX = 2500 - wrapper.clientWidth / 2
@@ -81,9 +95,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
     const dx = tgt.x - src.x
     const dy = tgt.y - src.y
     const angle = Math.atan2(dy, dx)
-    Math.sqrt(dx * dx + dy * dy)
     
-    // Offset for multiple lines
     const offset = 6
     
     if (strength === 1) {
@@ -122,7 +134,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
           <line
             className="bond-line"
             x1={src.x - Math.sin(angle) * offset * 1.5} y1={src.y + Math.cos(angle) * offset * 1.5}
-            x2={tgt.x - Math.sin(angle) * offset * 1.5} y2={tgt.y + Math.cos(angle) * offset * 1.5}
+            x2={tgt.x - Math.sin(angle) * offset * 1.5} y2={tgt.y - Math.cos(angle) * offset * 1.5}
           />
         </g>
       )
@@ -130,7 +142,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
   }
 
   return (
-    <div className={`workspace-wrapper glass-panel mode-${mode}`}>
+    <div className={`workspace-wrapper mode-${mode}`}>
       <svg
         ref={svgRef}
         className="workspace-svg"
@@ -139,40 +151,8 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
         height="5000"
       >
         <defs>
-          <filter id="glow-h">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-o">
-            <feGaussianBlur stdDeviation="5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-n">
-            <feGaussianBlur stdDeviation="4.5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-c">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-s">
-            <feGaussianBlur stdDeviation="5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-p">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-cl">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <filter id="glow-f">
-            <feGaussianBlur stdDeviation="3.5" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#94a3b8" strokeWidth="0.5"/>
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" strokeWidth="1"/>
           </pattern>
         </defs>
 
@@ -189,26 +169,17 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
           return (
             <g
               key={atom.id}
+              id={`atom-${atom.id}`}
               className={`atom-group ${isDragging ? 'dragging' : ''}`}
               transform={`translate(${atom.x},${atom.y})`}
               onClick={(e) => { e.stopPropagation(); onAtomClick(atom.id) }}
               onMouseDown={(e) => handleMouseDown(e, atom.id)}
             >
-              <circle
-                r={cfg.r + 8}
-                fill={cfg.glowColor}
-                style={{ filter: 'blur(8px)', opacity: isSelected || isDragging ? 1 : 0.4 }}
-              />
-
               {isSelected && (
                 <circle
                   className="bonding-indicator"
-                  r={cfg.r + 14}
+                  r={cfg.r + 10}
                 />
-              )}
-
-              {isBonded && !isSelected && (
-                <circle r={cfg.r + 6} fill="none" stroke="#4ade80" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
               )}
 
               <circle
@@ -216,15 +187,14 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
                 r={cfg.r}
                 fill={cfg.fill}
                 stroke={isSelected || isDragging ? '#facc15' : cfg.stroke}
-                strokeWidth={isSelected || isDragging ? 2.5 : 1.5}
-                style={{ filter: `url(#glow-${atom.type.toLowerCase()})` }}
+                strokeWidth={isSelected || isDragging ? 4 : 2}
               />
 
               <text
                 className="atom-label"
                 style={{ fill: cfg.labelFill }}
-                fontSize={atom.type === 'C' ? 15 : 13}
-                fontWeight="700"
+                fontSize={atom.type === 'C' ? 16 : 14}
+                fontWeight="800"
               >
                 {atom.type}
               </text>
@@ -238,11 +208,12 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
             y="50%"
             textAnchor="middle"
             dominantBaseline="central"
-            fill="rgba(148,163,184,0.35)"
-            fontSize="18"
-            fontFamily="Outfit, sans-serif"
+            fill="rgba(148,163,184,0.3)"
+            fontSize="24"
+            fontFamily="'Space Grotesk', sans-serif"
+            fontWeight="600"
           >
-            Bir atom tipi seçin ve yerleştirmek için tıklayın ✦
+            ATOM TİPİ SEÇİN VE BAŞLAYIN ✦
           </text>
         )}
       </svg>
