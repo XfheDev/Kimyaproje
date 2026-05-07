@@ -2,10 +2,10 @@ import { useRef, useState, useCallback, useEffect } from 'react'
 import { animate } from 'animejs'
 
 const ATOM_CONFIG = {
-  H: { fill: '#e2e8f0', stroke: '#94a3b8', labelFill: '#1e293b', r: 22 },
+  H: { fill: '#f8fafc', stroke: '#cbd5e1', labelFill: '#0f172a', r: 22 },
   O: { fill: '#f43f5e', stroke: '#e11d48', labelFill: '#ffffff', r: 26 },
-  N: { fill: '#8b5cf6', stroke: '#7c3aed', labelFill: '#ffffff', r: 27 },
-  C: { fill: '#334155', stroke: '#1e293b', labelFill: '#f8fafc', r: 28 },
+  N: { fill: '#3b82f6', stroke: '#2563eb', labelFill: '#ffffff', r: 27 },
+  C: { fill: '#1e293b', stroke: '#0f172a', labelFill: '#f8fafc', r: 28 },
   S: { fill: '#f59e0b', stroke: '#d97706', labelFill: '#ffffff', r: 29 },
   P: { fill: '#ec4899', stroke: '#db2777', labelFill: '#ffffff', r: 27 },
   Cl: { fill: '#22c55e', stroke: '#16a34a', labelFill: '#ffffff', r: 26 },
@@ -17,7 +17,6 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
   const [draggingAtom, setDraggingAtom] = useState(null)
 
   // Animate new atoms
-  /*
   useEffect(() => {
     if (atoms.length > 0) {
       const lastAtom = atoms[atoms.length - 1];
@@ -30,7 +29,6 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
       });
     }
   }, [atoms.length]);
-  */
 
   const handleSvgClick = (e) => {
     if (draggingAtom) return

@@ -187,7 +187,7 @@ export default function App() {
   const [mode, setMode] = useState('place') // 'place' | 'bond' | 'delete' | 'drag'
   const feedbackTimer = useRef(null)
 
-  /*
+  // Page Entry Animation
   useEffect(() => {
     animate({
       targets: '.app-header, .toolbar, .legend',
@@ -209,7 +209,6 @@ export default function App() {
       duration: 800
     })
   }, [currentLevel])
-  */
 
   const showFeedback = useCallback((msg, type = 'success') => {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current)

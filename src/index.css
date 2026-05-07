@@ -1,19 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap');
 
 :root {
-  --bg-color: #0f172a;
-  --panel-bg: #1e293b;
-  --panel-border: #334155;
-  --accent-primary: #6366f1;
-  --accent-secondary: #06b6d4;
+  --bg-color: #020617;
+  --panel-bg: #0f172a;
+  --panel-border: #1e293b;
+  --accent-primary: #818cf8;
+  --accent-secondary: #22d3ee;
   --accent-success: #10b981;
-  --accent-error: #ef4444;
+  --accent-error: #f43f5e;
   
-  /* Atom Colors (Flat) */
-  --atom-c: #334155;
+  /* Atom Colors (Curated Flat) */
+  --atom-c: #1e293b;
   --atom-o: #f43f5e;
-  --atom-h: #e2e8f0;
-  --atom-n: #8b5cf6;
+  --atom-h: #f8fafc;
+  --atom-n: #3b82f6;
   --atom-s: #f59e0b;
   --atom-p: #ec4899;
   --atom-cl: #22c55e;
@@ -22,8 +22,6 @@
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   
-  font-family: 'Space Grotesk', 'Outfit', system-ui, sans-serif;
-  line-height: 1.5;
   color-scheme: dark;
   text-rendering: optimizeLegibility;
 }

@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Text, Float } from '@react-three/drei'
+import { OrbitControls, Stars, Text, Float } from '@react-three/drei'
 import * as THREE from 'three'
 
 const ATOM_COLORS = {
-  H: '#e2e8f0',
+  H: '#f8fafc',
   O: '#f43f5e',
-  N: '#8b5cf6',
-  C: '#334155',
+  N: '#3b82f6',
+  C: '#1e293b',
   S: '#f59e0b',
   P: '#ec4899',
   Cl: '#22c55e',
@@ -15,7 +15,7 @@ const ATOM_COLORS = {
 }
 
 const ATOM_SIZES = {
-  H: 0.4,
+  H: 0.45,
   O: 0.65,
   N: 0.7,
   C: 0.75,
@@ -32,17 +32,18 @@ function Atom({ position, type }) {
         <sphereGeometry args={[ATOM_SIZES[type], 32, 32]} />
         <meshStandardMaterial 
           color={ATOM_COLORS[type]} 
-          roughness={0.5} 
-          metalness={0.1}
+          roughness={0.4} 
+          metalness={0.2}
+          emissive={ATOM_COLORS[type]}
+          emissiveIntensity={0.1}
         />
       </mesh>
       <Text
-        position={[0, ATOM_SIZES[type] + 0.3, 0]}
-        fontSize={0.2}
+        position={[0, ATOM_SIZES[type] + 0.35, 0]}
+        fontSize={0.25}
         color="white"
         anchorX="center"
         anchorY="middle"
-        font="https://fonts.gstatic.com/s/spacegrotesk/v15/V8mDoQDj3hyS2229TP60PZ_S21mS2A.woff"
       >
         {type}
       </Text>
@@ -54,7 +55,7 @@ function Bond({ start, end, strength }) {
   const vec = new THREE.Vector3().subVectors(end, start)
   const len = vec.length()
   const pos = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5)
-  const width = 0.1
+  const width = 0.08
   
   const quaternion = new THREE.Quaternion()
   const cylinderUp = new THREE.Vector3(0, 1, 0)
@@ -73,7 +74,7 @@ function Bond({ start, end, strength }) {
     return (
       <mesh position={adjustedPos} quaternion={quaternion}>
         <cylinderGeometry args={[width, width, len, 8]} />
-        <meshStandardMaterial color="#475569" metalness={0.2} roughness={0.8} />
+        <meshStandardMaterial color="#475569" metalness={0.4} roughness={0.6} />
       </mesh>
     )
   }
@@ -83,15 +84,15 @@ function Bond({ start, end, strength }) {
       {strength === 1 && renderCylinder(0)}
       {strength === 2 && (
         <>
-          {renderCylinder(0.15)}
-          {renderCylinder(-0.15)}
+          {renderCylinder(0.12)}
+          {renderCylinder(-0.12)}
         </>
       )}
       {strength === 3 && (
         <>
           {renderCylinder(0)}
-          {renderCylinder(0.25)}
-          {renderCylinder(-0.25)}
+          {renderCylinder(0.22)}
+          {renderCylinder(-0.22)}
         </>
       )}
     </group>
@@ -127,12 +128,14 @@ export default function ThreeScene({ atoms, bonds }) {
   return (
     <div className="three-scene-wrapper">
       <Canvas shadows camera={{ position: [0, 0, cameraDist], fov: 45 }}>
-        <color attach="background" args={['#0f172a']} />
-        <ambientLight intensity={1.5} />
-        <pointLight position={[10, 10, 10]} intensity={1.5} castShadow />
-        <pointLight position={[-10, -10, -10]} color="#6366f1" intensity={0.5} />
+        <color attach="background" args={['#020617']} />
+        <ambientLight intensity={1.2} />
+        <pointLight position={[10, 10, 10]} intensity={2} castShadow />
+        <pointLight position={[-10, -10, -10]} color="#818cf8" intensity={1} />
         
-        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+
+        <Float speed={1.8} rotationIntensity={0.4} floatIntensity={0.4}>
           <group>
             {mappedAtoms.map(atom => (
               <Atom 
@@ -162,11 +165,12 @@ export default function ThreeScene({ atoms, bonds }) {
           minDistance={maxRadius + 1} 
           maxDistance={cameraDist * 3} 
           autoRotate={true}
-          autoRotateSpeed={0.8}
+          autoRotateSpeed={0.5}
         />
       </Canvas>
       <div className="three-hint">Gezinmek için basılı tutun | 3D Modu Aktif</div>
     </div>
   )
 }
+
 
