@@ -24,14 +24,8 @@
   
   font-family: 'Space Grotesk', 'Outfit', system-ui, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
-
   color-scheme: dark;
-  color: var(--text-primary);
-  background-color: var(--bg-color);
-
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -41,6 +35,11 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+  font-family: 'Space Grotesk', 'Outfit', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {

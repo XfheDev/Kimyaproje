@@ -17,6 +17,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
   const [draggingAtom, setDraggingAtom] = useState(null)
 
   // Animate new atoms
+  /*
   useEffect(() => {
     if (atoms.length > 0) {
       const lastAtom = atoms[atoms.length - 1];
@@ -29,6 +30,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
       });
     }
   }, [atoms.length]);
+  */
 
   const handleSvgClick = (e) => {
     if (draggingAtom) return
@@ -130,7 +132,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
           <line
             className="bond-line"
             x1={src.x - Math.sin(angle) * offset * 1.5} y1={src.y + Math.cos(angle) * offset * 1.5}
-            x2={tgt.x - Math.sin(angle) * offset * 1.5} y2={tgt.y - Math.cos(angle) * offset * 1.5}
+            x2={tgt.x - Math.sin(angle) * offset * 1.5} y2={tgt.y + Math.cos(angle) * offset * 1.5}
           />
         </g>
       )
@@ -152,7 +154,7 @@ export default function Workspace({ atoms, bonds, bondingFrom, mode, onWorkspace
           </pattern>
         </defs>
 
-        <rect className="workspace-bg" width="5000" height="5000" fill="url(#grid)" className="workspace-grid workspace-bg" />
+        <rect className="workspace-grid workspace-bg" width="5000" height="5000" fill="url(#grid)" />
 
         {bonds.map(renderBond)}
 
